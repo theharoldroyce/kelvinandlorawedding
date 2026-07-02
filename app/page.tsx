@@ -1,116 +1,12 @@
 'use client'
 
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type CSSProperties } from 'react'
+import { createPortal } from 'react-dom'
 import Image from 'next/image'
 
 /* ─────────────────────────────────────────────
    SVG Helpers
 ───────────────────────────────────────────── */
-
-type FlowerProps = {
-  cx: number; cy: number; r: number; color: string; center?: string; petals?: number
-}
-
-function Flower({ cx, cy, r, color, center = '#FFD700', petals = 6 }: FlowerProps) {
-  return (
-    <g>
-      {Array.from({ length: petals }, (_, i) => {
-        const angle = (i * 360) / petals
-        return (
-          <ellipse
-            key={i}
-            cx={cx}
-            cy={cy - r * 0.68}
-            rx={r * 0.32}
-            ry={r * 0.6}
-            fill={color}
-            opacity={0.88}
-            transform={`rotate(${angle} ${cx} ${cy})`}
-          />
-        )
-      })}
-      <circle cx={cx} cy={cy} r={r * 0.22} fill={center} />
-    </g>
-  )
-}
-
-function Leaf({ cx, cy, rx, ry, angle, color = '#5A7A3A' }: {
-  cx: number; cy: number; rx: number; ry: number; angle: number; color?: string
-}) {
-  return (
-    <ellipse
-      cx={cx} cy={cy} rx={rx} ry={ry}
-      fill={color} opacity={0.8}
-      transform={`rotate(${angle} ${cx} ${cy})`}
-    />
-  )
-}
-
-function FloralTopRight() {
-  return (
-    <div style={{ position: 'absolute', top: 0, right: 0, pointerEvents: 'none', zIndex: 0, overflow: 'hidden' }}>
-      <svg width="210" height="190" viewBox="0 0 210 190">
-        <Flower cx={165} cy={42} r={48} color="#E8642A" center="#F5C842" petals={8} />
-        <Flower cx={95} cy={75} r={36} color="#F5C842" center="#E8A025" petals={7} />
-        <Flower cx={185} cy={108} r={26} color="#F5893D" center="#FFD700" />
-        <circle cx={130} cy={25} r={6} fill="#E8642A" opacity={0.7} />
-        <circle cx={145} cy={15} r={4} fill="#F5C842" opacity={0.6} />
-        <circle cx={155} cy={30} r={5} fill="#F5893D" opacity={0.65} />
-        <Leaf cx={125} cy={60} rx={8} ry={22} angle={-35} />
-        <Leaf cx={145} cy={80} rx={7} ry={18} angle={15} color="#3D6B2F" />
-        <Leaf cx={105} cy={40} rx={6} ry={16} angle={-60} />
-      </svg>
-    </div>
-  )
-}
-
-function FloralBottomLeft() {
-  return (
-    <div style={{ position: 'absolute', bottom: 0, left: 0, pointerEvents: 'none', zIndex: 0, overflow: 'hidden' }}>
-      <svg width="220" height="210" viewBox="0 0 220 210">
-        <Flower cx={55} cy={170} r={52} color="#E8426A" center="#FFD700" petals={8} />
-        <Flower cx={110} cy={155} r={38} color="#E8642A" center="#F5C842" petals={7} />
-        <Flower cx={22} cy={130} r={30} color="#9B5EA5" center="#FFD700" />
-        <Flower cx={80} cy={195} r={22} color="#F8E0E6" center="#FFB6C1" petals={5} />
-        <circle cx={130} cy={170} r={7} fill="#E8642A" opacity={0.7} />
-        <circle cx={140} cy={180} r={5} fill="#F5C842" opacity={0.6} />
-        <Leaf cx={75} cy={140} rx={8} ry={24} angle={30} />
-        <Leaf cx={45} cy={148} rx={7} ry={20} angle={-20} color="#3D6B2F" />
-        <Leaf cx={100} cy={130} rx={6} ry={18} angle={55} />
-      </svg>
-    </div>
-  )
-}
-
-function FloralBottomRight() {
-  return (
-    <div style={{ position: 'absolute', bottom: 0, right: 0, pointerEvents: 'none', zIndex: 0, overflow: 'hidden' }}>
-      <svg width="190" height="200" viewBox="0 0 190 200">
-        <Flower cx={130} cy={165} r={50} color="#F5C842" center="#C4802A" petals={10} />
-        <Flower cx={175} cy={130} r={28} color="#FFF8DC" center="#F5C842" petals={6} />
-        <circle cx={160} cy={170} r={6} fill="#5A7A3A" opacity={0.6} />
-        <circle cx={150} cy={158} r={4} fill="#5A7A3A" opacity={0.5} />
-        <line x1="155" y1="165" x2="160" y2="175" stroke="#5A7A3A" strokeWidth="2" opacity="0.5" />
-        <line x1="148" y1="158" x2="152" y2="168" stroke="#5A7A3A" strokeWidth="1.5" opacity="0.5" />
-        <Leaf cx={110} cy={148} rx={8} ry={22} angle={-25} />
-        <Leaf cx={155} cy={148} rx={7} ry={18} angle={40} color="#3D6B2F" />
-      </svg>
-    </div>
-  )
-}
-
-function FloralTopLeft() {
-  return (
-    <div style={{ position: 'absolute', top: 0, left: 0, pointerEvents: 'none', zIndex: 0, overflow: 'hidden' }}>
-      <svg width="160" height="160" viewBox="0 0 160 160">
-        <Flower cx={35} cy={38} r={38} color="#F5893D" center="#F5C842" petals={7} />
-        <Flower cx={90} cy={55} r={24} color="#E8642A" center="#FFD700" />
-        <Leaf cx={60} cy={55} rx={7} ry={20} angle={20} />
-        <Leaf cx={30} cy={65} rx={6} ry={16} angle={-40} color="#3D6B2F" />
-      </svg>
-    </div>
-  )
-}
 
 function Divider({ symbol = '✦' }: { symbol?: string }) {
   return (
@@ -120,15 +16,17 @@ function Divider({ symbol = '✦' }: { symbol?: string }) {
   )
 }
 
+const STORY_PHOTOS = Array.from({ length: 10 }, (_, i) => `/our-story-${i + 1}.jpg`)
+
 /* ─────────────────────────────────────────────
    Countdown
 ───────────────────────────────────────────── */
 
 const WEDDING_DATE_ISO = '2026-08-10T15:30:00+08:00'
 
-const STORY_PHOTOS = Array.from({ length: 10 }, (_, i) => `/our-story-${i + 1}.jpg`)
-
 type TimeLeft = { days: number; hours: number; minutes: number; seconds: number }
+
+const ZERO_TIME: TimeLeft = { days: 0, hours: 0, minutes: 0, seconds: 0 }
 
 function computeTimeLeft(): TimeLeft {
   const diff = Math.max(0, new Date(WEDDING_DATE_ISO).getTime() - Date.now())
@@ -140,24 +38,104 @@ function computeTimeLeft(): TimeLeft {
   }
 }
 
-function useCountdown(): TimeLeft | null {
-  const [time, setTime] = useState<TimeLeft | null>(null)
+function useCountdown(): TimeLeft {
+  // start from zeros so server and first client render match, then tick live
+  const [time, setTime] = useState<TimeLeft>(ZERO_TIME)
 
   useEffect(() => {
-    setTime(computeTimeLeft())
+    // first update on the next frame keeps setState out of the effect body
+    const raf = requestAnimationFrame(() => setTime(computeTimeLeft()))
     const id = setInterval(() => setTime(computeTimeLeft()), 1000)
-    return () => clearInterval(id)
+    return () => {
+      cancelAnimationFrame(raf)
+      clearInterval(id)
+    }
   }, [])
 
   return time
 }
 
-function CountdownBox({ value, label }: { value: number | null; label: string }) {
+function CountdownSection() {
+  const { days, hours, minutes, seconds } = useCountdown()
+
+  const units: { value: number; label: string; pad: number }[] = [
+    { value: days, label: 'Day(s)', pad: 2 },
+    { value: hours, label: 'Hour(s)', pad: 2 },
+    { value: minutes, label: 'Minute(s)', pad: 2 },
+    { value: seconds, label: 'Second(s)', pad: 2 },
+  ]
+
   return (
-    <div style={{ textAlign: 'center' }}>
-      <p className="countdown-num">{value === null ? '–' : String(value).padStart(2, '0')}</p>
-      <p className="countdown-label">{label}</p>
-    </div>
+    <section className="scroll-reveal section-pad" style={{ background: '#F5F0E8', borderTop: '1px solid #C8BEA4', textAlign: 'center' }}>
+      <h2 className="t-script-lg" style={{ fontFamily: 'var(--font-script)', color: '#3D4A28', marginBottom: 20 }}>
+        Countdown
+      </h2>
+      <p className="t-body-serif" style={{ maxWidth: 520, margin: '0 auto 44px' }}>
+        Every day draws us closer to the moment we say &ldquo;I do.&rdquo;<br />
+        We can&apos;t wait to celebrate with you.
+      </p>
+
+      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'center', gap: 'clamp(6px, 2vw, 22px)' }}>
+        {units.map((u, i) => (
+          <div key={u.label} style={{ display: 'flex', alignItems: 'flex-start', gap: 'clamp(6px, 2vw, 22px)' }}>
+            <div style={{ textAlign: 'center', minWidth: 'clamp(48px, 12vw, 96px)' }}>
+              <p className="countdown-num">{String(u.value).padStart(u.pad, '0')}</p>
+              <p className="countdown-label">{u.label}</p>
+            </div>
+            {i < units.length - 1 && (
+              <span className="countdown-num" style={{ color: '#C8BEA4' }} aria-hidden="true">:</span>
+            )}
+          </div>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+/* ─────────────────────────────────────────────
+   Photo collage
+───────────────────────────────────────────── */
+
+const COLLAGE_PHOTOS = [
+  { src: '/random 1.jpg', left: '14%', top: '2%', w: '40%', rot: -3, z: 3 },
+  { src: '/random 2.jpg', left: '55%', top: '6%', w: '34%', rot: 5, z: 2 },
+  { src: '/random 3.jpg', left: '2%', top: '34%', w: '38%', rot: -4, z: 2 },
+  { src: '/random 4.jpg', left: '60%', top: '34%', w: '36%', rot: 3, z: 3 },
+  { src: '/random 5.jpg', left: '26%', top: '54%', w: '32%', rot: 2, z: 5 },
+  { src: '/random 6.jpg', left: '47%', top: '50%', w: '33%', rot: -2, z: 6 },
+]
+
+function PhotoCollage() {
+  const [active, setActive] = useState<string | null>(null)
+
+  return (
+    <section className="scroll-reveal section-pad" style={{ background: '#EDE8DC', borderTop: '1px solid #C8BEA4' }}>
+      <div className="collage">
+        {COLLAGE_PHOTOS.map((p) => (
+          <div
+            key={p.src}
+            className="collage-item"
+            style={{ left: p.left, top: p.top, width: p.w, '--rot': `${p.rot}deg`, '--z': p.z } as CSSProperties}
+            tabIndex={0}
+            onMouseEnter={() => setActive(p.src)}
+            onMouseLeave={() => setActive(null)}
+            onFocus={() => setActive(p.src)}
+            onBlur={() => setActive(null)}
+          >
+            <Image src={encodeURI(p.src)} alt="Kelvin and Lora" fill sizes="(max-width: 767px) 45vw, 40vw" style={{ objectFit: 'cover' }} />
+          </div>
+        ))}
+      </div>
+
+      {active && typeof document !== 'undefined' &&
+        createPortal(
+          <div className="collage-zoom" aria-hidden="true">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={encodeURI(active)} alt="Kelvin and Lora" />
+          </div>,
+          document.body
+        )}
+    </section>
   )
 }
 
@@ -276,8 +254,6 @@ function StoryGallery({ photos }: { photos: string[] }) {
 ───────────────────────────────────────────── */
 
 export default function Home() {
-  const countdown = useCountdown()
-
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -340,8 +316,6 @@ export default function Home() {
 
       {/* ── OUR STORY ── */}
       <section className="scroll-reveal section-pad" style={{ background: '#F5F0E8', position: 'relative', overflow: 'hidden' }}>
-        <FloralTopRight />
-        <FloralBottomLeft />
         <div style={{ position: 'relative', zIndex: 1, maxWidth: 900, margin: '0 auto', textAlign: 'center' }}>
           <h2 className="t-script-lg" style={{ fontFamily: 'var(--font-script)', color: '#3D4A28', marginBottom: 24 }}>
             Our Story
@@ -368,9 +342,11 @@ export default function Home() {
         </div>
       </section>
 
-   
+      {/* ── COUNTDOWN ── */}
+      <CountdownSection />
 
-    
+      {/* ── PHOTO COLLAGE ── */}
+      <PhotoCollage />
 
       {/* ── GIFTS ── */}
       <section className="scroll-reveal section-pad" style={{ background: '#EDE8DC', borderTop: '1px solid #C8BEA4', textAlign: 'center' }}>
