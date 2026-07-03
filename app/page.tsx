@@ -358,6 +358,36 @@ function PhoneBoothSection() {
 
 function RSVPForm() {
   const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState('')
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    const form = e.currentTarget
+    const fd = new FormData(form)
+    const payload = {
+      name: fd.get('name'),
+      phone: fd.get('phone'),
+      attending: fd.get('attending'),
+      otherGuests: fd.get('otherGuests'),
+      message: fd.get('message'),
+    }
+    setSubmitting(true)
+    setError('')
+    try {
+      const res = await fetch('/api/rsvp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+      if (!res.ok) throw new Error()
+      setSubmitted(true)
+    } catch {
+      setError('Something went wrong. Please try again.')
+    } finally {
+      setSubmitting(false)
+    }
+  }
 
   if (submitted) {
     return (
@@ -370,7 +400,7 @@ function RSVPForm() {
 
   return (
     <form
-      onSubmit={(e) => { e.preventDefault(); setSubmitted(true) }}
+      onSubmit={handleSubmit}
       style={{ display: 'flex', flexDirection: 'column', gap: 16, maxWidth: 420, margin: '0 auto', textAlign: 'left' }}
     >
       <input className="rsvp-field" type="text" name="name" placeholder="Full Name" required />
@@ -382,17 +412,22 @@ function RSVPForm() {
       </select>
       <input className="rsvp-field" type="text" name="otherGuests" placeholder="Name of Other Guest(s)" />
       <textarea className="rsvp-field" name="message" placeholder="Message for the couple (optional)" rows={4} />
+      {error && (
+        <p style={{ color: '#B5673A', fontFamily: 'var(--font-serif)', fontSize: 14 }}>{error}</p>
+      )}
       <button
         type="submit"
+        disabled={submitting}
         style={{
           fontFamily: 'var(--font-sans)', fontSize: 12, fontWeight: 500,
           letterSpacing: '2px', textTransform: 'uppercase',
           color: '#F5F0E8', background: '#3D4A28',
           border: 'none', borderRadius: 2, padding: '14px 24px',
-          cursor: 'pointer', marginTop: 4,
+          cursor: submitting ? 'default' : 'pointer', marginTop: 4,
+          opacity: submitting ? 0.7 : 1,
         }}
       >
-        Send RSVP
+        {submitting ? 'Sending…' : 'Send RSVP'}
       </button>
     </form>
   )
