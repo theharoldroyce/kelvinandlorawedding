@@ -151,6 +151,143 @@ function PhotoCollage() {
 }
 
 /* ─────────────────────────────────────────────
+   The Celebration
+───────────────────────────────────────────── */
+
+function CelebrationSection() {
+  return (
+    <section className="scroll-reveal section-pad" style={{ background: '#F5F0E8', borderTop: '1px solid #C8BEA4', textAlign: 'center' }}>
+      <h2 className="t-script-lg" style={{ fontFamily: 'var(--font-script)', color: '#3D4A28', marginBottom: 12 }}>
+        The Celebration
+      </h2>
+      <p className="t-body-serif" style={{ maxWidth: 540, margin: '0 auto 40px' }}>
+        Join us for a day of worship, love, and celebration<br />
+        at Hillcreek Gardens Tagaytay.
+      </p>
+
+      <div className="celebration-grid">
+        <div className="celebration-venue">
+          <Image src="/Venue.jpg" alt="Hillcreek Gardens Tagaytay" fill sizes="(max-width: 767px) 100vw, 55vw" style={{ objectFit: 'cover' }} />
+        </div>
+
+        <div className="celebration-events">
+          <div className="celebration-event">
+            <Image src="/ceremony.jpg" alt="Ceremony" fill sizes="(max-width: 767px) 100vw, 45vw" style={{ objectFit: 'cover' }} />
+            <div className="celebration-cap">
+              <h3 style={{ fontFamily: 'var(--font-script)' }}>Ceremony</h3>
+              <p>4:00 PM</p>
+            </div>
+          </div>
+          <div className="celebration-event">
+            <Image src="/reception.jpg" alt="Reception" fill sizes="(max-width: 767px) 100vw, 45vw" style={{ objectFit: 'cover' }} />
+            <div className="celebration-cap">
+              <h3 style={{ fontFamily: 'var(--font-script)' }}>Reception</h3>
+              <p>5:00 PM</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ─────────────────────────────────────────────
+   The Finer Details (attire guide)
+───────────────────────────────────────────── */
+
+const PRINCIPAL_PALETTE = ['#F6D26A', '#F4C63D', '#F2A63C', '#EF823C', '#F0609A', '#E5157E']
+const GUEST_PALETTE = ['#1E6FB6', '#6FA8DC', '#E8474F', '#F0728E', '#EE7E3B', '#F4A24C']
+
+function ColorPalette({ colors }: { colors: string[] }) {
+  return (
+    <div>
+      <p className="attire-palette-label" style={{ fontFamily: 'var(--font-script)' }}>Color Palette</p>
+      <div className="attire-dots">
+        {colors.map((c, i) => (
+          <span key={i} className="attire-dot" style={{ background: c }} />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function DetailsSection() {
+  return (
+    <section className="scroll-reveal section-pad" style={{ background: '#F5F0E8', borderTop: '1px solid #C8BEA4', textAlign: 'center' }}>
+      <h2 className="t-script-lg" style={{ fontFamily: 'var(--font-script)', color: '#3D4A28', marginBottom: 12 }}>
+        The Finer Details
+      </h2>
+      <p className="t-body-serif" style={{ maxWidth: 520, margin: '0 auto 44px' }}>
+        A little guide to help you dress for our celebration.
+      </p>
+
+      <div style={{ maxWidth: 620, margin: '0 auto' }}>
+        <h3 className="attire-title">Principal Sponsors</h3>
+        <p className="attire-sub">Barong and Filipiniana or Modern Dress</p>
+        <ColorPalette colors={PRINCIPAL_PALETTE} />
+
+        <div className="attire-divider" />
+
+        <h3 className="attire-title">Secondary Sponsors</h3>
+        <div className="attire-two">
+          <div>
+            <p className="t-script-md" style={{ fontFamily: 'var(--font-script)', color: '#3D4A28' }}>Team Groom</p>
+            <p className="attire-sub">Beige Suit</p>
+          </div>
+          <div className="attire-vline" />
+          <div>
+            <p className="t-script-md" style={{ fontFamily: 'var(--font-script)', color: '#3D4A28' }}>Team Bride</p>
+            <p className="attire-sub">Any shade of yellow</p>
+          </div>
+        </div>
+
+        <div className="attire-divider" />
+
+        <h3 className="attire-title">Guest</h3>
+        <p className="attire-sub">Casual Attire</p>
+        <ColorPalette colors={GUEST_PALETTE} />
+      </div>
+    </section>
+  )
+}
+
+/* ─────────────────────────────────────────────
+   Venue map
+───────────────────────────────────────────── */
+
+function VenueMapSection() {
+  const query = 'Hillcreek Gardens Tagaytay'
+  const embedSrc = `https://www.google.com/maps?q=${encodeURIComponent(query)}&output=embed`
+  const directionsHref = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(query)}`
+
+  return (
+    <section className="scroll-reveal section-pad" style={{ background: '#EDE8DC', borderTop: '1px solid #C8BEA4', textAlign: 'center' }}>
+      <h2 className="t-script-lg" style={{ fontFamily: 'var(--font-script)', color: '#3D4A28', marginBottom: 12 }}>
+        How to Get There
+      </h2>
+      <p className="t-body-serif" style={{ maxWidth: 520, margin: '0 auto 36px' }}>
+        Hillcreek Gardens Tagaytay<br />
+        Tap the map or the button below for directions.
+      </p>
+
+      <div className="venue-map">
+        <iframe
+          src={embedSrc}
+          title="Map to Hillcreek Gardens Tagaytay"
+          loading="lazy"
+          allowFullScreen
+          referrerPolicy="no-referrer-when-downgrade"
+        />
+      </div>
+
+      <a className="map-directions-btn" href={directionsHref} target="_blank" rel="noopener noreferrer">
+        Get Directions
+      </a>
+    </section>
+  )
+}
+
+/* ─────────────────────────────────────────────
    RSVP form (front-end only — not wired to a backend yet)
 ───────────────────────────────────────────── */
 
@@ -358,6 +495,15 @@ export default function Home() {
 
       {/* ── PHOTO COLLAGE ── */}
       <PhotoCollage />
+
+      {/* ── THE CELEBRATION ── */}
+      <CelebrationSection />
+
+      {/* ── VENUE MAP ── */}
+      <VenueMapSection />
+
+      {/* ── THE FINER DETAILS ── */}
+      <DetailsSection />
 
       {/* ── GIFTS ── */}
       <section className="scroll-reveal section-pad" style={{ background: '#EDE8DC', borderTop: '1px solid #C8BEA4', textAlign: 'center' }}>
