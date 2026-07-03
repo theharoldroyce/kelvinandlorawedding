@@ -16,7 +16,7 @@ function Divider({ symbol = '✦' }: { symbol?: string }) {
   )
 }
 
-const STORY_PHOTOS = Array.from({ length: 10 }, (_, i) => `/our-story-${i + 1}.jpg`)
+const STORY_PHOTOS = [1, 2, 5, 6, 7, 8, 9, 10].map((n) => `/our-story-${n}.jpg`)
 
 /* ─────────────────────────────────────────────
    Countdown
@@ -97,12 +97,23 @@ function CountdownSection() {
 ───────────────────────────────────────────── */
 
 const COLLAGE_PHOTOS = [
-  { src: '/random 1.jpg', left: '14%', top: '2%', w: '40%', rot: -3, z: 3 },
-  { src: '/random 2.jpg', left: '55%', top: '6%', w: '34%', rot: 5, z: 2 },
-  { src: '/random 3.jpg', left: '2%', top: '34%', w: '38%', rot: -4, z: 2 },
-  { src: '/random 4.jpg', left: '60%', top: '34%', w: '36%', rot: 3, z: 3 },
-  { src: '/random 5.jpg', left: '26%', top: '54%', w: '32%', rot: 2, z: 5 },
-  { src: '/random 6.jpg', left: '47%', top: '50%', w: '33%', rot: -2, z: 6 },
+  // row 1
+  { src: '/random 1.jpg', left: '4%', top: '2%', w: '30%', rot: -3, z: 1 },
+  { src: '/random 2.jpg', left: '36%', top: '0%', w: '30%', rot: 3, z: 2 },
+  { src: '/random 3.jpg', left: '67%', top: '3%', w: '29%', rot: -2, z: 1 },
+  // row 2
+  { src: '/random 4.jpg', left: '1%', top: '24%', w: '28%', rot: 4, z: 3 },
+  { src: '/random 5.jpg', left: '30%', top: '22%', w: '32%', rot: -3, z: 4 },
+  { src: '/random 6.jpg', left: '64%', top: '26%', w: '30%', rot: 2, z: 3 },
+  // row 3
+  { src: '/random 7.jpg', left: '5%', top: '48%', w: '29%', rot: -2, z: 5 },
+  { src: '/random 8.jpg', left: '35%', top: '46%', w: '30%', rot: 3, z: 6 },
+  { src: '/random 9.jpg', left: '66%', top: '49%', w: '28%', rot: -4, z: 5 },
+  // row 4
+  { src: '/random 10.jpg', left: '2%', top: '71%', w: '27%', rot: 2, z: 7 },
+  { src: '/random 11.jpg', left: '28%', top: '73%', w: '30%', rot: -3, z: 8 },
+  { src: '/random 12.jpg', left: '55%', top: '70%', w: '29%', rot: 3, z: 7 },
+  { src: '/random 13.jpg', left: '72%', top: '72%', w: '26%', rot: -2, z: 6 },
 ]
 
 function PhotoCollage() {
