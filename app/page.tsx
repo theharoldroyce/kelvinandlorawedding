@@ -192,6 +192,42 @@ function CelebrationSection() {
 }
 
 /* ─────────────────────────────────────────────
+   Timeline (order of the day)
+───────────────────────────────────────────── */
+
+const TIMELINE = [
+  { time: '3:30 PM', title: 'Guest Arrival', desc: 'Find your seat and settle in' },
+  { time: '4:00 PM', title: 'Ceremony', desc: 'The exchange of vows' },
+  { time: '5:00 PM', title: 'Reception', desc: 'Cocktails and celebration' },
+  { time: '6:00 PM', title: 'Dinner & Program', desc: 'Feasting, toasts, and speeches' },
+  { time: '8:00 PM', title: 'Send-Off', desc: 'A sweet farewell to the newlyweds' },
+]
+
+function TimelineSection() {
+  return (
+    <section className="scroll-reveal section-pad" style={{ background: '#EDE8DC', borderTop: '1px solid #C8BEA4', textAlign: 'center' }}>
+      <h2 className="t-script-lg" style={{ fontFamily: 'var(--font-script)', color: '#3D4A28', marginBottom: 12 }}>
+        The Timeline
+      </h2>
+      <p className="t-body-serif" style={{ maxWidth: 520, margin: '0 auto 48px' }}>
+        A glimpse of how our special day will unfold.
+      </p>
+
+      <div className="timeline">
+        {TIMELINE.map((t) => (
+          <div key={t.title} className="timeline-item">
+            <span className="timeline-dot" />
+            <p className="timeline-time">{t.time}</p>
+            <h3 className="timeline-title" style={{ fontFamily: 'var(--font-script)' }}>{t.title}</h3>
+            <p className="timeline-desc">{t.desc}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+/* ─────────────────────────────────────────────
    The Finer Details (attire guide)
 ───────────────────────────────────────────── */
 
@@ -288,6 +324,35 @@ function VenueMapSection() {
 }
 
 /* ─────────────────────────────────────────────
+   Phone Booth
+───────────────────────────────────────────── */
+
+function PhoneBoothSection() {
+  return (
+    <section className="scroll-reveal section-pad" style={{ background: '#F5F0E8', borderTop: '1px solid #C8BEA4', textAlign: 'center' }}>
+      <h2 className="t-script-lg" style={{ fontFamily: 'var(--font-script)', color: '#3D4A28', marginBottom: 16 }}>
+        Phone Booth
+      </h2>
+      <p className="t-body-serif" style={{ maxWidth: 560, margin: '0 auto 14px' }}>
+        Look for the phone booth and leave us a message.
+      </p>
+      <p className="t-body-serif" style={{ maxWidth: 560, margin: '0 auto 44px' }}>
+        Leave us a short video message, wish, or advice &mdash; we can&apos;t wait to watch and
+        cherish them forever.
+      </p>
+
+      <div className="phonebooth-photos">
+        {['/Phone Booth 1.jpg', '/Phone Booth 2.jpg'].map((src) => (
+          <div key={src} className="phonebooth-photo">
+            <Image src={encodeURI(src)} alt="Leave a message phone booth" fill sizes="(max-width: 640px) 90vw, 380px" style={{ objectFit: 'cover' }} />
+          </div>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+/* ─────────────────────────────────────────────
    RSVP form (front-end only — not wired to a backend yet)
 ───────────────────────────────────────────── */
 
@@ -309,13 +374,13 @@ function RSVPForm() {
       style={{ display: 'flex', flexDirection: 'column', gap: 16, maxWidth: 420, margin: '0 auto', textAlign: 'left' }}
     >
       <input className="rsvp-field" type="text" name="name" placeholder="Full Name" required />
-      <input className="rsvp-field" type="email" name="email" placeholder="Email Address" required />
+      <input className="rsvp-field" type="tel" name="phone" placeholder="Phone Number" required />
       <select className="rsvp-field" name="attending" defaultValue="" required>
         <option value="" disabled>Will you be attending?</option>
         <option value="yes">Joyfully Accepts</option>
         <option value="no">Regretfully Declines</option>
       </select>
-      <input className="rsvp-field" type="number" name="guests" placeholder="Number of Guests" min={1} />
+      <input className="rsvp-field" type="text" name="otherGuests" placeholder="Name of Other Guest(s)" />
       <textarea className="rsvp-field" name="message" placeholder="Message for the couple (optional)" rows={4} />
       <button
         type="submit"
@@ -502,27 +567,54 @@ export default function Home() {
       {/* ── VENUE MAP ── */}
       <VenueMapSection />
 
+      {/* ── TIMELINE ── */}
+      <TimelineSection />
+
       {/* ── THE FINER DETAILS ── */}
       <DetailsSection />
 
       {/* ── GIFTS ── */}
       <section className="scroll-reveal section-pad" style={{ background: '#EDE8DC', borderTop: '1px solid #C8BEA4', textAlign: 'center' }}>
-        <div style={{ maxWidth: 520, margin: '0 auto' }}>
+        <div style={{ maxWidth: 600, margin: '0 auto' }}>
           <h2 className="t-script-lg" style={{ fontFamily: 'var(--font-script)', color: '#3D4A28', marginBottom: 24 }}>
             Gifts
           </h2>
-          <p className="t-body-serif">
-            We are already truly blessed in many ways.<br />
-            Your presence and prayers mean the most to us.<br />
-            If you feel led to give, a monetary gift<br />
-            would be received with heartfelt gratitude.
+          <p className="t-body-serif" style={{ marginBottom: 16 }}>
+            We are already blessed in many ways. Your presence and prayers mean the most to us.
           </p>
+          <p className="t-body-serif" style={{ marginBottom: 12 }}>
+            If you feel led to bless us further, a monetary gift would be received with sincere
+            gratitude as we begin this new chapter together.
+          </p>
+          <p className="t-body-serif" style={{ marginBottom: 40 }}>
+            For your convenience, our QR payment options are provided below.
+          </p>
+
+          <div className="gift-qr-grid">
+            {[
+              { src: '/QR GCash.jpg', label: 'GCash' },
+              { src: '/QR BDO.jpg', label: 'BDO' },
+              { src: '/QR BPI.jpg', label: 'BPI' },
+            ].map((qr) => (
+              <div key={qr.label} className="gift-qr-card">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={encodeURI(qr.src)} alt={`${qr.label} QR code`} className="gift-qr-img" loading="lazy" />
+                <p className="gift-qr-label">{qr.label}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
+
+      {/* ── PHONE BOOTH ── */}
+      <PhoneBoothSection />
 
       {/* ── ENTOURAGE ── */}
       <section className="scroll-reveal section-pad" style={{ background: '#F5F0E8', borderTop: '1px solid #C8BEA4' }}>
         <div style={{ maxWidth: 580, margin: '0 auto' }}>
+          <h2 className="t-script-lg" style={{ fontFamily: 'var(--font-script)', color: '#3D4A28', textAlign: 'center', marginBottom: 40 }}>
+            The Entourage
+          </h2>
           <div style={{ textAlign: 'center', marginBottom: 40 }}>
             <div className="parents-grid">
               <div style={{ textAlign: 'center' }}>
@@ -574,7 +666,7 @@ export default function Home() {
               </div>
               <div style={{ textAlign: 'center' }}>
                 <h3 className="t-script-md" style={{ fontFamily: 'var(--font-script)', color: '#3D4A28', marginBottom: 14 }}>Maid of Honor</h3>
-                <p className="entourage-name">MRS. SHEENA NATADA</p>
+                <p className="entourage-name">MS. PATRICIA KAHN</p>
               </div>
             </div>
           </div>
@@ -587,7 +679,7 @@ export default function Home() {
               {[
                 'MRS. FE NIEVERA',
                 'MR. BRYCE ACUZAR',
-                'MS. PATRICIA KAHN',
+                'MS. CARYL CANDOLESAS',
                 'MR. IVAN NIEBLA',
                 'MS. TRACEY ROJAS',
                 'MR. KIM AGENA',
@@ -604,7 +696,7 @@ export default function Home() {
           <div style={{ textAlign: 'center', marginTop: 36 }}>
             <h3 className="t-script-md" style={{ fontFamily: 'var(--font-script)', color: '#3D4A28', marginBottom: 14 }}>Flower Girls</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-              {['LIAN AGENA', 'ZOEY CANDOLESAS', 'JLEE CANDOLESAS', 'HARPER NATADA'].map((n) => (
+              {['LIAN AGENA', 'ZOEY CANDOLESAS', 'JLEE CANDOLESAS'].map((n) => (
                 <p key={n} className="entourage-name">{n}</p>
               ))}
             </div>
@@ -615,16 +707,17 @@ export default function Home() {
       {/* ── RSVP ── */}
       <section className="scroll-reveal section-pad" style={{ background: '#EDE8DC', borderTop: '1px solid #C8BEA4', textAlign: 'center' }}>
         <h2 className="t-script-rsvp" style={{ fontFamily: 'var(--font-script)', color: '#3D4A28', marginBottom: 20 }}>
-          RSVP
+          A Small Celebration, A Grateful Heart
         </h2>
-        <p className="t-body-serif" style={{ color: '#3D4A28', marginBottom: 16 }}>
-          It is our joy to reserve your seat
+        <p className="t-body-serif" style={{ maxWidth: 560, margin: '0 auto 16px' }}>
+          The Lord has blessed us with many wonderful people, and we wish we could celebrate with
+          everyone. After much prayer and consideration, we&apos;ve chosen to keep our wedding an
+          intimate gathering.
         </p>
-        <p className="t-body-serif" style={{ maxWidth: 480, margin: '0 auto 40px' }}>
-          Especially for you on our wedding day.<br />
-          As we have chosen to keep our celebration close-knit,<br />
-          we are unable to accommodate additional guests.<br />
-          Kindly let us know if you&apos;ll be joining us below.
+        <p className="t-body-serif" style={{ maxWidth: 560, margin: '0 auto 40px' }}>
+          We kindly ask that you RSVP according to the number of seats reserved for you, as
+          personally communicated by the couple. Thank you for understanding and for helping us
+          celebrate God&apos;s faithfulness with those closest to us.
         </p>
 
         <RSVPForm />
