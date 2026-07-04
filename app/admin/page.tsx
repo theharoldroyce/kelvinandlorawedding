@@ -73,11 +73,9 @@ export default function AdminPage() {
 
   const attending = rsvps.filter((r) => r.attending === 'yes')
   const declined = rsvps.filter((r) => r.attending === 'no')
-  // headcount = each attending response + any named additional guests
-  const extraGuests = attending.reduce(
-    (sum, r) => sum + (r.otherGuests ? r.otherGuests.split(',').filter((s) => s.trim()).length : 0),
-    0
-  )
+  // headcount = each attending response + any *named* additional guests
+  // (ignore placeholders like "N/A", "none", "wala", "-", etc.)
+  const extraGuests = attending.reduce((sum, r) => sum + countGuestNames(r.otherGuests), 0)
   const totalAttending = attending.length + extraGuests
 
   return (
@@ -137,6 +135,22 @@ export default function AdminPage() {
       </div>
     </main>
   )
+}
+
+// Values guests type when they have no additional guests — these should count as 0.
+const NON_NAMES = new Set([
+  '', 'n/a', 'na', 'n.a.', 'none', 'none.', 'no', 'nope', 'wala', 'wala po', 'none po',
+  '-', '--', '—', 'x', 'xx', 'nil', 'nan', '0', 'self', 'me only', 'just me', 'solo',
+])
+
+function countGuestNames(raw: string): number {
+  if (!raw) return 0
+  // whole-field placeholder (e.g. "N/A", "none") counts as zero guests
+  if (NON_NAMES.has(raw.trim().toLowerCase())) return 0
+  return raw
+    .split(/[,&\n;]|\band\b/i)
+    .map((p) => p.trim())
+    .filter((p) => p !== '' && !NON_NAMES.has(p.toLowerCase())).length
 }
 
 function Stat({ label, value, accent }: { label: string; value: number; accent?: string }) {
