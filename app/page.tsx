@@ -200,7 +200,7 @@ const TIMELINE = [
   { time: '4:00 PM', title: 'Ceremony', desc: 'The exchange of vows' },
   { time: '5:00 PM', title: 'Reception', desc: 'Cocktails and celebration' },
   { time: '6:00 PM', title: 'Dinner & Program', desc: 'Feasting, toasts, and speeches' },
-  { time: '8:00 PM', title: 'Send-Off', desc: 'A sweet farewell to the newlyweds' },
+  { time: '8:30 PM', title: 'Send-Off', desc: 'A sweet farewell to the newlyweds' },
 ]
 
 function TimelineSection() {
@@ -521,7 +521,7 @@ export default function Home() {
       {/* ── HERO ── */}
       <section className="animate-page-enter" style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
         <Image
-          src="/hero.jpg"
+          src={encodeURI('/random 10.jpg')}
           alt="Kelvin and Lora"
           fill
           priority
@@ -620,9 +620,6 @@ export default function Home() {
           <p className="t-body-serif" style={{ marginBottom: 12 }}>
             If you feel led to bless us further, a monetary gift would be received with sincere
             gratitude as we begin this new chapter together.
-          </p>
-          <p className="t-body-serif" style={{ marginBottom: 40 }}>
-            For your convenience, our QR payment options are provided below.
           </p>
 
           <div className="gift-qr-grid">
