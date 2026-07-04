@@ -621,6 +621,9 @@ export default function Home() {
             If you feel led to bless us further, a monetary gift would be received with sincere
             gratitude as we begin this new chapter together.
           </p>
+           <p className="t-body-serif" style={{ marginBottom: 12 }}>
+            For your convenience, our QR options are provided below.
+          </p>
 
           <div className="gift-qr-grid">
             {[
