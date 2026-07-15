@@ -650,7 +650,14 @@ export default function Home() {
           <h2 className="t-script-lg" style={{ fontFamily: 'var(--font-script)', color: '#3D4A28', textAlign: 'center', marginBottom: 40 }}>
             The Entourage
           </h2>
-          <div style={{ textAlign: 'center', marginBottom: 40 }}>
+          <div style={{ textAlign: 'center', margin: '0 0 36px' }}>
+            <h3 className="t-script-md" style={{ fontFamily: 'var(--font-script)', color: '#3D4A28', marginBottom: 14 }}>Officiating Pastor</h3>
+            <p className="entourage-name">PSTR. GAMALIEL & BABY LIJAUCO</p>
+          </div>
+
+          <Divider />
+
+          <div style={{ textAlign: 'center', margin: '36px 0 40px' }}>
             <div className="parents-grid">
               <div style={{ textAlign: 'center' }}>
                 <h3 className="t-script-md" style={{ fontFamily: 'var(--font-script)', color: '#3D4A28', marginBottom: 14 }}>Parents of the Groom</h3>
