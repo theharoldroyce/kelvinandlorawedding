@@ -660,12 +660,12 @@ export default function Home() {
           <div style={{ textAlign: 'center', margin: '36px 0 40px' }}>
             <div className="parents-grid">
               <div style={{ textAlign: 'center' }}>
-                <h3 style={{ fontFamily: 'var(--font-script)', color: '#3D4A28', marginBottom: 14, whiteSpace: 'nowrap', fontSize: 'clamp(18px, 4.6vw, 26px)' }}>Parents of the Groom</h3>
+                <h3 className="t-script-md" style={{ fontFamily: 'var(--font-script)', color: '#3D4A28', marginBottom: 14 }}>Parents of the Groom</h3>
                 <p className="entourage-name">† MR. LUDY AGENA</p>
                 <p className="entourage-name">MRS. DORY AGENA</p>
               </div>
               <div style={{ textAlign: 'center' }}>
-                <h3 style={{ fontFamily: 'var(--font-script)', color: '#3D4A28', marginBottom: 14, whiteSpace: 'nowrap', fontSize: 'clamp(18px, 4.6vw, 26px)' }}>Parents of the Bride</h3>
+                <h3 className="t-script-md" style={{ fontFamily: 'var(--font-script)', color: '#3D4A28', marginBottom: 14 }}>Parents of the Bride</h3>
                 <p className="entourage-name">MR. VICTOR CANDOLESAS</p>
                 <p className="entourage-name">MRS. ERLINDA CANDOLESAS</p>
               </div>

@@ -143,7 +143,7 @@ body {
 .t-script-xl   { font-size: clamp(42px, 9vw,   90px); }   /* hero couple names   */
 .t-script-lg   { font-size: clamp(42px, 9vw,   90px); }   /* section h2          */
 .t-script-rsvp { font-size: clamp(42px, 9vw,   90px); }   /* RSVP h2             */
-.t-script-md   { font-size: clamp(18px, 4.2vw, 36px); }   /* entourage h3        */
+.t-script-md   { font-size: clamp(18px, 4.2vw, 26px); white-space: nowrap; }   /* entourage h3        */
 .t-script-sm   { font-size: clamp(18px, 4vw,   30px); }   /* footer / see-you    */
 
 /* Serif / sans body */
